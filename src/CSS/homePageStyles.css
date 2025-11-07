@@ -1,0 +1,15 @@
+* {
+  background-color: black;
+  font-family: "Times New Roman", Times, serif;
+  color: whitesmoke;
+  font-size: 12px;
+}
+
+.bottom-left-image {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 30%;
+  height: auto;
+  z-index: 10;
+}
