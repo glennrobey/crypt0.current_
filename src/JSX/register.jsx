@@ -15,19 +15,19 @@ export default function Register() {
       <nav className="sidebar">
         <ul>
           <li>
-            <a href="/">Home</a>
+            <a href="/"> - Home</a>
           </li>
           <li>
-            <a href="/mission">Mission</a>
+            <a href="/mission"> - Mission</a>
           </li>
           <li>
-            <a href="/forum">Forum</a>
+            <a href="/forum"> - Forum</a>
           </li>
           <li>
-            <a href="/login">Login</a>
+            <a href="/login"> - Login</a>
           </li>
           <li>
-            <a href="/register">Register</a>
+            <a href="/register"> - Register</a>
           </li>
         </ul>
       </nav>
