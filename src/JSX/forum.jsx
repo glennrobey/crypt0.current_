@@ -7,7 +7,6 @@ export default function Forum() {
       <div className="title">
         <h1>
           crypt0.current_
-          <br />
           <br />- Forum
         </h1>
       </div>

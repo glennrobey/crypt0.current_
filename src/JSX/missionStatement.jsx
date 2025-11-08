@@ -4,12 +4,14 @@ import BitcoinImage from "/bitcoin.png";
 export default function Mission() {
   return (
     <div className="mission-container">
+      {/* Title */}
       <div className="title">
         <h1>
-          crypt0.current_ <br />
-          <br />- Mission Statement
+          crypt0.current_ <br />- Mission Statement
         </h1>
       </div>
+
+      {/* Sidebar navigation */}
       <nav className="sidebar">
         <ul>
           <li>
@@ -30,6 +32,7 @@ export default function Mission() {
         </ul>
       </nav>
 
+      {/* Mission statement body */}
       <div className="body">
         <p>
           Since the initial rise of cryptocurrency, years ago, there is still
@@ -46,9 +49,9 @@ export default function Mission() {
           <i>way people view currency as a whole</i>. This unconventional
           currency is what is called <i>decentralized currency</i>: simply put,
           no governments or banks can regulate it. One concept that underground
-          internet culture has always embraced is the idea of{" "}
+          internet culture has always embraced is the idea of
           <i>
-            <u>freedom of information</u>
+            <u> freedom of information</u>
           </i>
           . Cryptocurrency fits that role, as everything involved with it, from
           the blockchain to purchasing and spending it, is completely
@@ -79,6 +82,8 @@ export default function Mission() {
           information as well as to discuss currency-related ideas.
         </p>
       </div>
+
+      {/* Bottom-left image */}
       <img
         src={BitcoinImage}
         alt="Bitcoin Logo"

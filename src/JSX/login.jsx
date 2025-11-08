@@ -8,7 +8,6 @@ export default function Login() {
       <div className="title">
         <h1>
           crypt0.current_
-          <br />
           <br />- Login
         </h1>
       </div>

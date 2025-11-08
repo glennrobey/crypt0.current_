@@ -8,7 +8,6 @@ export default function Register() {
       <div className="title">
         <h1>
           crypt0.current_
-          <br />
           <br />- Register
         </h1>
       </div>

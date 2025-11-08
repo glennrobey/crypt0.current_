@@ -68,7 +68,7 @@ p {
   padding: 0.5rem;
   color: whitesmoke;
   font-size: 25px;
-  top: calc(1rem + 90px);
+  margin-top: 50px;
 }
 
 .title {
@@ -107,7 +107,7 @@ ul {
   border-radius: 6px;
   margin-bottom: 10px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  top: calc(1rem + 90px);
+  top: 70px;
 }
 
 .sidebar a:hover {
