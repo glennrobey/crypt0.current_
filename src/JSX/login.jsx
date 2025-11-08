@@ -30,6 +30,13 @@ export default function Login() {
           </li>
         </ul>
       </nav>
+      <label>Username:</label>
+      <input type="text" placeholder="Enter username" required />
+
+      <label>Password:</label>
+      <input type="password" placeholder="Enter password" required />
+
+      <button type="submit">Login</button>
       <img
         src={BitcoinImage}
         alt="Bitcoin Logo"

@@ -30,6 +30,17 @@ export default function Register() {
           </li>
         </ul>
       </nav>
+      <div className="form-container">
+        <form>
+          <label>Username:</label>
+          <input type="text" placeholder="Enter username" required />
+
+          <label>Password:</label>
+          <input type="password" placeholder="Enter password" required />
+
+          <button type="submit">Register</button>
+        </form>
+      </div>
       <img
         src={BitcoinImage}
         alt="Bitcoin Logo"
