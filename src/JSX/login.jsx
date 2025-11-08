@@ -1,14 +1,15 @@
-import "../CSS/forumStyles.css";
+import "../CSS/loginStyles.css";
+import React from "react";
 import BitcoinImage from "/bitcoin.png";
 
-export default function Forum() {
+export default function Login() {
   return (
     <div className="mission-container">
       <div className="title">
         <h1>
           crypt0.current_
           <br />
-          <br />- Forum
+          <br />- Login
         </h1>
       </div>
       <nav className="sidebar">

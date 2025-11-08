@@ -10,6 +10,25 @@ export default function Mission() {
           <br />- Mission Statement
         </h1>
       </div>
+      <nav className="sidebar">
+        <ul>
+          <li>
+            <a href="/"> - Home</a>
+          </li>
+          <li>
+            <a href="/mission"> - Mission</a>
+          </li>
+          <li>
+            <a href="/forum"> - Forum</a>
+          </li>
+          <li>
+            <a href="/login"> - Login</a>
+          </li>
+          <li>
+            <a href="/register"> - Register</a>
+          </li>
+        </ul>
+      </nav>
 
       <div className="body">
         <p>

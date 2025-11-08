@@ -55,3 +55,61 @@ p {
   height: auto;
   z-index: 10;
 }
+
+.sidebar {
+  background-color: #0c850d;
+  border: 1px solid whitesmoke;
+  text-align: left;
+  border-radius: 8px;
+  width: 215px;
+  position: fixed;
+  top: 200px;
+  left: 0;
+  padding: 0.5rem;
+  color: whitesmoke;
+  font-size: 25px;
+  top: calc(1rem + 90px);
+}
+
+.title {
+  background-color: #0c850d;
+  border: 1px solid whitesmoke;
+  text-align: left;
+  border-radius: 8px;
+  width: fit-content;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
+}
+
+li {
+  background-color: #0c850d;
+  list-style: none;
+  transition: color 0.3s ease;
+  color: whitesmoke;
+}
+
+ul {
+  background-color: #0c850d;
+  list-style: none;
+  transition: color 0.3s ease;
+  color: whitesmoke;
+}
+
+.sidebar a {
+  display: block;
+  background-color: #0c850d;
+  color: white;
+  text-decoration: none;
+  font-size: 25px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  top: calc(1rem + 90px);
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
