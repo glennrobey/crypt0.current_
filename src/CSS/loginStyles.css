@@ -1,5 +1,4 @@
 * {
-  background-color: black;
   font-family: "Times New Roman", Times, serif;
   color: whitesmoke;
   font-size: 12px;
@@ -69,4 +68,9 @@ ul {
 
 .sidebar a:hover {
   text-decoration: underline;
+}
+
+body {
+  background-image: url("/background.jpg");
+  background-attachment: fixed;
 }

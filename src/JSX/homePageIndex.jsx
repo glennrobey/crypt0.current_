@@ -1,6 +1,7 @@
 import "../CSS/homePageStyles.css";
 import React, { useEffect, useState } from "react";
 import BitcoinImage from "/bitcoin.png";
+import BackgroundImage from "/background.jpg";
 
 export default function Home() {
   const [currencies, setCurrencies] = useState([]);

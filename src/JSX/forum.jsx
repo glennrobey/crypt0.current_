@@ -1,5 +1,6 @@
 import "../CSS/forumStyles.css";
 import BitcoinImage from "/bitcoin.png";
+import BackgroundImage from "/background.jpg";
 
 export default function Forum() {
   return (

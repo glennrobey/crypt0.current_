@@ -1,6 +1,7 @@
 import "../CSS/registerStyles.css";
 import React from "react";
 import BitcoinImage from "/bitcoin.png";
+import BackgroundImage from "/background.jpg";
 
 export default function Register() {
   return (

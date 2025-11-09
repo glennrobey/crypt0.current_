@@ -1,5 +1,4 @@
 * {
-  background-color: black;
   font-family: "Times New Roman", Times, serif;
   color: whitesmoke;
   font-size: 12px;
@@ -78,4 +77,12 @@ ul {
   width: fit-content;
   position: fixed;
   border: 1px solid whitesmoke;
+}
+
+body {
+  background-image: url("/background.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
