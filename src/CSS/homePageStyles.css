@@ -69,3 +69,13 @@ ul {
 .sidebar a:hover {
   text-decoration: underline;
 }
+
+.app {
+  background-color: #0c850d;
+  color: white;
+  text-align: left;
+  border-radius: 8px;
+  width: fit-content;
+  position: fixed;
+  border: 1px solid whitesmoke;
+}
