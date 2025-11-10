@@ -14,7 +14,7 @@
 }
 
 .sidebar {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -28,7 +28,7 @@
 }
 
 .title {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -40,21 +40,21 @@
 }
 
 li {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 ul {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 .sidebar a {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   display: block;
   color: white;
   text-decoration: none;
@@ -66,7 +66,7 @@ ul {
 }
 
 .sidebar a:hover {
-  background-color: rgba(12, 133, 13, 0.75);
+  background-color: #0c850d;
   text-decoration: underline;
 }
 
