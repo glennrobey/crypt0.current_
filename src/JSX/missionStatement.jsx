@@ -1,6 +1,7 @@
 import "../CSS/missionStatementStyles.css";
 import BitcoinImage from "/bitcoin.png";
 import BackgroundImage from "/background.jpg";
+import TitleSidebarBackground from "/title-sidebar-background.jpg";
 
 export default function Mission() {
   return (

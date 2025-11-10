@@ -5,7 +5,6 @@
 }
 
 .sidebar {
-  background-color: #0c850d;
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -16,25 +15,29 @@
   padding: 0.5rem;
   color: whitesmoke;
   font-size: 25px;
+  background-image: url("/title-sidebar-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-
 li {
-  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 ul {
-  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 .sidebar a {
+  background-image: url("/title-sidebar-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: block;
-  background-color: #0c850d;
   color: white;
   text-decoration: none;
   font-size: 25px;

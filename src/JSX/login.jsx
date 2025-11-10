@@ -2,6 +2,7 @@ import "../CSS/loginStyles.css";
 import React from "react";
 import BitcoinImage from "/bitcoin.png";
 import BackgroundImage from "/background.jpg";
+import TitleSidebarBackground from "/title-sidebar-background.jpg";
 
 export default function Login() {
   return (

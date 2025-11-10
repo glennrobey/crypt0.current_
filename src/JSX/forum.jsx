@@ -1,6 +1,7 @@
 import "../CSS/forumStyles.css";
 import BitcoinImage from "/bitcoin.png";
 import { useState } from "react";
+import TitleSidebarBackground from "/title-sidebar-background.jpg";
 
 export default function Forum() {
   const [posts, setPosts] = useState([

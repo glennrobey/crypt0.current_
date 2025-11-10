@@ -28,7 +28,10 @@
 }
 
 .title {
-  background-color: #0c850d;
+  background-image: url("/title-sidebar-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -40,21 +43,22 @@
 }
 
 li {
-  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 ul {
-  background-color: #0c850d;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 .sidebar a {
-  background-color: #0c850d;
+  background-image: url("/title-sidebar-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: block;
   color: white;
   text-decoration: none;
@@ -66,7 +70,6 @@ ul {
 }
 
 .sidebar a:hover {
-  background-color: #0c850d;
   text-decoration: underline;
 }
 
