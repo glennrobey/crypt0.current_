@@ -14,7 +14,7 @@
 }
 
 .sidebar {
-  background-color: #0c850d;
+  background-color: rgba(12, 133, 13, 0.75);
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -28,7 +28,7 @@
 }
 
 .title {
-  background-color: #0c850d;
+  background-color: rgba(12, 133, 13, 0.75);
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -40,22 +40,22 @@
 }
 
 li {
-  background-color: #0c850d;
+  background-color: rgba(12, 133, 13, 0.75);
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 ul {
-  background-color: #0c850d;
+  background-color: rgba(12, 133, 13, 0.75);
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 .sidebar a {
+  background-color: rgba(12, 133, 13, 0.75);
   display: block;
-  background-color: #0c850d;
   color: white;
   text-decoration: none;
   font-size: 25px;
@@ -66,17 +66,20 @@ ul {
 }
 
 .sidebar a:hover {
+  background-color: rgba(12, 133, 13, 0.75);
   text-decoration: underline;
 }
 
 .app {
-  background-color: #0c850d;
+  background-color: rgba(12, 133, 13, 0.75);
   color: white;
   text-align: left;
   border-radius: 8px;
   width: fit-content;
   position: fixed;
   border: 1px solid whitesmoke;
+  left: 60rem;
+  top: 30rem;
 }
 
 body {

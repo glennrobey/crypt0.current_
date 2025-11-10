@@ -17,7 +17,7 @@
 }
 
 .body {
-  background-color: #0c850d;
+  background-color: #0c850dc0;
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -27,22 +27,22 @@
 }
 
 .mission_container {
-  background-color: #0c850d;
+  background-color: #0c850dc0;
 }
 
 .body b,
 .body i,
 .body u {
-  background-color: #0c850d;
+  background-color: transparent;
   font-size: 20px;
 }
 
 h1 {
-  background-color: #0c850d;
+  background-color: #0c850dc0;
 }
 
 p {
-  background-color: #0c850d;
+  background-color: transparent;
   font-size: 18px;
 }
 
@@ -83,14 +83,14 @@ p {
 }
 
 li {
-  background-color: #0c850d;
+  background-color: #0c850dc0;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
 }
 
 ul {
-  background-color: #0c850d;
+  background-color: #0c850dc0;
   list-style: none;
   transition: color 0.3s ease;
   color: whitesmoke;
@@ -98,7 +98,7 @@ ul {
 
 .sidebar a {
   display: block;
-  background-color: #0c850d;
+  background-color: #0c850dc0;
   color: white;
   text-decoration: none;
   font-size: 25px;
@@ -116,4 +116,8 @@ ul {
 body {
   background-image: url("/background.jpg");
   background-attachment: fixed;
+}
+
+.description {
+  background-color: transparent;
 }

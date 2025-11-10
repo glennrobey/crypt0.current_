@@ -33,13 +33,14 @@ export default function Register() {
       </nav>
       <div className="form-container">
         <form>
-          <label>Username:</label>
+          <label className="register-form">Username:</label>
           <input type="text" placeholder="Enter username" required />
 
-          <label>Password:</label>
+          <label className="login-form">Password:</label>
           <input type="password" placeholder="Enter password" required />
-
-          <button type="submit">Register</button>
+          <button className="register-button" type="submit">
+            Register
+          </button>
         </form>
       </div>
       <img

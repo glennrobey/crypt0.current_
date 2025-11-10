@@ -35,7 +35,7 @@ export default function Mission() {
 
       {/* Mission statement body */}
       <div className="body">
-        <p>
+        <p className="description">
           Since the initial rise of cryptocurrency, years ago, there is still
           very little knowledge of what can be done with it and how it will
           grow. It remains a rather niche concept for the most part, with not
@@ -44,7 +44,7 @@ export default function Mission() {
           on its importance.
         </p>
 
-        <p>
+        <p className="description">
           What is yet to be done with crypto can quite potentially{" "}
           <b>change the world</b> with the{" "}
           <i>way people view currency as a whole</i>. This unconventional
@@ -59,7 +59,7 @@ export default function Mission() {
           transparent in the public domain.
         </p>
 
-        <p>
+        <p className="description">
           In all actuality,{" "}
           <b>
             cryptocurrencies cannot and should not be regulated by any bank or
@@ -74,7 +74,7 @@ export default function Mission() {
           .
         </p>
 
-        <p>
+        <p className="description">
           crypt0.current_ is an app that allows any exchange rate calculations
           to be made from any currency to one another: centralized or not. It
           also provides a dedicated forum for those interested and/or involved
