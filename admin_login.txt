@@ -1,0 +1,3 @@
+Username: admin
+Password: password
+Password Hash: $2b$10$jg9S/qZNcNkYjLg/CnUDYO13W60PVH9HVqllFgBNnt/IIaDwRe8UC

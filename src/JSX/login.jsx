@@ -1,10 +1,55 @@
 import "../CSS/loginStyles.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BitcoinImage from "/bitcoin.png";
-import BackgroundImage from "/background.jpg";
-import TitleSidebarBackground from "/title-sidebar-background.jpg";
+
+const API_URL = "http://localhost:5000/api";
 
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  // If already logged in, redirect or show message
+  useEffect(() => {
+    if (user) {
+      console.log("Logged in as:", user.username);
+    }
+  }, [user]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!username || !password) return;
+
+    try {
+      const res = await fetch(`${API_URL}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.token) {
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        alert(`Logged in as ${data.username}`);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Login failed. Check console.");
+    }
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
   return (
     <div className="mission-container">
       <div className="title">
@@ -13,6 +58,7 @@ export default function Login() {
           <br />- Login
         </h1>
       </div>
+
       <nav className="sidebar">
         <ul>
           <li>
@@ -32,15 +78,40 @@ export default function Login() {
           </li>
         </ul>
       </nav>
-      <label className="login-form">Username:</label>
-      <input type="text" placeholder="Enter username" required />
 
-      <label className="login-form">Password:</label>
-      <input type="password" placeholder="Enter password" required />
+      {!user ? (
+        <form className="login-form" onSubmit={handleLogin}>
+          <label>Username:</label>
+          <input
+            type="text"
+            placeholder="Enter username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-      <button className="login-button" type="submit">
-        Login
-      </button>
+          <label>Password:</label>
+          <input
+            type="password"
+            placeholder="Enter password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
+      ) : (
+        <div>
+          <p>
+            Logged in as {user.username} {user.is_admin ? "(Admin)" : ""}
+          </p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
+
       <img
         src={BitcoinImage}
         alt="Bitcoin Logo"
