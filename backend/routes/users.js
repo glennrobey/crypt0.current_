@@ -13,7 +13,6 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    // Check if username exists
     const userCheck = await pool.query(
       "SELECT * FROM users WHERE username = $1",
       [username]
@@ -23,11 +22,9 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Username already exists" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const password_hash = await bcrypt.hash(password, salt);
 
-    // Insert user
     const newUser = await pool.query(
       "INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username, is_admin",
       [username, password_hash]
@@ -62,7 +59,6 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Success — return user info
     res.json({
       id: user.rows[0].id,
       username: user.rows[0].username,
