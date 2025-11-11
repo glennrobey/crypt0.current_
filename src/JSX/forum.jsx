@@ -23,7 +23,7 @@ export default function Forum() {
   ]);
 
   const [newMessage, setNewMessage] = useState("");
-  const [replyMessages, setReplyMessages] = useState({}); // Track replies per post
+  const [replyMessages, setReplyMessages] = useState({});
 
   const handlePost = (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ export default function Forum() {
       comments: [],
     };
     setPosts([newPost, ...posts]);
-    setNewMessage(""); // Clear textarea
+    setNewMessage("");
   };
 
   const handleReply = (e, postId) => {
@@ -57,7 +57,7 @@ export default function Forum() {
       })
     );
 
-    setReplyMessages({ ...replyMessages, [postId]: "" }); // Clear reply input
+    setReplyMessages({ ...replyMessages, [postId]: "" });
   };
 
   return (

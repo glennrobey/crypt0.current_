@@ -62,7 +62,8 @@ router.put("/:id", authenticateToken, async (req, res) => {
     const postRes = await pool.query("SELECT * FROM posts WHERE id = $1", [id]);
     if (!postRes.rows.length)
       return res.status(404).json({ message: "Post not found" });
-    if (postRes.rows[0].user_id !== req.user.id)
+
+    if (postRes.rows[0].user_id !== req.user.id && !req.user.is_admin)
       return res.status(403).json({ message: "Unauthorized" });
 
     const updatedPost = await pool.query(
@@ -84,7 +85,8 @@ router.delete("/:id", authenticateToken, async (req, res) => {
     const postRes = await pool.query("SELECT * FROM posts WHERE id = $1", [id]);
     if (!postRes.rows.length)
       return res.status(404).json({ message: "Post not found" });
-    if (postRes.rows[0].user_id !== req.user.id)
+
+    if (postRes.rows[0].user_id !== req.user.id && !req.user.is_admin)
       return res.status(403).json({ message: "Unauthorized" });
 
     await pool.query("DELETE FROM posts WHERE id = $1", [id]);
@@ -109,7 +111,58 @@ router.post("/:id/comments", authenticateToken, async (req, res) => {
     res.status(201).json(newComment.rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server Error");
+    res.status(500).send("Server error");
+  }
+});
+
+// UPDATE a comment
+router.put("/comments/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ message: "Message required" });
+
+  try {
+    const commentRes = await pool.query(
+      "SELECT * FROM comments WHERE id = $1",
+      [id]
+    );
+    if (!commentRes.rows.length)
+      return res.status(404).json({ message: "Comment not found" });
+
+    if (commentRes.rows[0].user_id !== req.user.id && !req.user.is_admin)
+      return res.status(403).json({ message: "Unauthorized" });
+
+    const updatedComment = await pool.query(
+      "UPDATE comments SET message = $1 WHERE id = $2 RETURNING *",
+      [message, id]
+    );
+    res.json(updatedComment.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
+
+// DELETE a comment
+router.delete("/comments/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const commentRes = await pool.query(
+      "SELECT * FROM comments WHERE id = $1",
+      [id]
+    );
+    if (!commentRes.rows.length)
+      return res.status(404).json({ message: "Comment not found" });
+
+    if (commentRes.rows[0].user_id !== req.user.id && !req.user.is_admin)
+      return res.status(403).json({ message: "Unauthorized" });
+
+    await pool.query("DELETE FROM comments WHERE id = $1", [id]);
+    res.json({ message: "Comment deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
   }
 });
 
