@@ -5,85 +5,42 @@ import { useState, useEffect } from "react";
 const API_URL = "http://localhost:5000/api";
 
 export default function Forum() {
-  // --- Auth ---
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
   });
-
-  // --- Posts ---
   const [posts, setPosts] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [replyMessages, setReplyMessages] = useState({});
 
-  // --- Fetch posts ---
-  const fetchPosts = async () => {
-    try {
+  // --- Fetch posts + auto-update ---
+  useEffect(() => {
+    const fetchPosts = async () => {
       const res = await fetch(`${API_URL}/posts`);
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Failed to fetch posts:", text);
-        return;
-      }
       const data = await res.json();
       setPosts(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    };
 
-  useEffect(() => {
     fetchPosts();
+    const interval = setInterval(fetchPosts, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  // --- Posts CRUD ---
+  // --- Post CRUD ---
   const handlePost = async (e) => {
     e.preventDefault();
     if (!newMessage) return;
-
-    try {
-      const res = await fetch(`${API_URL}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ message: newMessage }),
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Failed to create post:", text);
-        return;
-      }
-
-      const data = await res.json();
-      setPosts([data, ...posts]);
-      setNewMessage("");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleDeletePost = async (postId) => {
-    if (!window.confirm("Delete this post?")) return;
-
-    try {
-      const res = await fetch(`${API_URL}/posts/${postId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Failed to delete post:", text);
-        return;
-      }
-
-      setPosts(posts.filter((p) => p.id !== postId));
-    } catch (err) {
-      console.error(err);
-    }
+    const res = await fetch(`${API_URL}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({ message: newMessage }),
+    });
+    const data = await res.json();
+    setPosts([data, ...posts]);
+    setNewMessage("");
   };
 
   const handleReply = async (e, postId) => {
@@ -91,47 +48,56 @@ export default function Forum() {
     const replyText = replyMessages[postId];
     if (!replyText) return;
 
-    try {
-      const res = await fetch(`${API_URL}/posts/${postId}/comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ message: replyText }),
-      });
+    const res = await fetch(`${API_URL}/posts/${postId}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({ message: replyText }),
+    });
+    const data = await res.json();
 
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Failed to reply:", text);
-        return;
-      }
-
-      const data = await res.json();
-
-      setPosts(
-        posts.map((post) =>
-          post.id === postId
-            ? { ...post, comments: [...post.comments, data] }
-            : post
-        )
-      );
-
-      setReplyMessages({ ...replyMessages, [postId]: "" });
-    } catch (err) {
-      console.error(err);
-    }
+    setPosts(
+      posts.map((post) =>
+        post.id === postId
+          ? { ...post, comments: [...post.comments, data] }
+          : post
+      )
+    );
+    setReplyMessages({ ...replyMessages, [postId]: "" });
   };
 
-  // --- Logout ---
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm("Delete this post?")) return;
+
+    await fetch(`${API_URL}/posts/${postId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+
+    setPosts(posts.filter((post) => post.id !== postId));
+  };
+
+  const handleEditPost = async (postId) => {
+    const newText = prompt("Edit your post:");
+    if (!newText) return;
+
+    const res = await fetch(`${API_URL}/posts/${postId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({ message: newText }),
+    });
+    const data = await res.json();
+
+    setPosts(posts.map((p) => (p.id === postId ? data : p)));
   };
 
   return (
     <div className="mission-container">
-      {/* Title */}
       <div className="title">
         <h1>
           crypt0.current_
@@ -139,7 +105,6 @@ export default function Forum() {
         </h1>
       </div>
 
-      {/* Sidebar */}
       <nav className="sidebar">
         <ul>
           <li>
@@ -151,8 +116,7 @@ export default function Forum() {
           <li>
             <a href="/forum"> - Forum</a>
           </li>
-
-          {!user ? (
+          {!user && (
             <>
               <li>
                 <a href="/login"> - Login</a>
@@ -161,71 +125,143 @@ export default function Forum() {
                 <a href="/register"> - Register</a>
               </li>
             </>
-          ) : (
+          )}
+          {user && (
             <li>
-              <button onClick={handleLogout}>Logout ({user.username})</button>
+              <button
+                onClick={() => {
+                  setUser(null);
+                  localStorage.removeItem("user");
+                }}
+              >
+                Logout ({user.username})
+              </button>
             </li>
           )}
         </ul>
       </nav>
 
-      {/* Forum Main */}
-      <div className="forum-main">
-        {user && (
-          <div className="new-post">
-            <h2>Create a New Post</h2>
-            <form onSubmit={handlePost}>
-              <textarea
-                placeholder="Write your post here..."
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-              ></textarea>
-              <button type="submit">Post</button>
-            </form>
-          </div>
-        )}
+      {user && (
+        <div className="new-post">
+          <h2>Create a New Post</h2>
+          <form onSubmit={handlePost}>
+            <textarea
+              placeholder="Write your post here..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            ></textarea>
+            <button type="submit">Post</button>
+          </form>
+        </div>
+      )}
 
-        <div className="posts">
-          {posts.map((post) => (
-            <div className="post" key={post.id}>
-              <p>
-                <b>{post.user_name}:</b> {post.message}
-              </p>
-
-              {/* Delete button only for admins or post owner */}
-              {user && (user.is_admin || user.id === post.user_id) && (
+      <div className="posts">
+        {posts.map((post) => (
+          <div className="post" key={post.id}>
+            <p>
+              <b>{post.user_name}:</b> {post.message}
+            </p>
+            {(user?.id === post.user_id || user?.is_admin) && (
+              <div>
+                <button onClick={() => handleEditPost(post.id)}>Edit</button>
                 <button onClick={() => handleDeletePost(post.id)}>
                   Delete
                 </button>
-              )}
+              </div>
+            )}
 
-              <div className="comments">
-                {post.comments.map((c) => (
-                  <p key={c.id}>
+            <div className="comments">
+              {post.comments.map((c) => (
+                <div key={c.id} className="comment">
+                  <p>
                     <i>{c.user_name}:</i> {c.message}
                   </p>
-                ))}
 
-                {user && (
-                  <form onSubmit={(e) => handleReply(e, post.id)}>
-                    <input
-                      type="text"
-                      placeholder="Write a reply..."
-                      value={replyMessages[post.id] || ""}
-                      onChange={(e) =>
-                        setReplyMessages({
-                          ...replyMessages,
-                          [post.id]: e.target.value,
-                        })
-                      }
-                    />
-                    <button type="submit">Reply</button>
-                  </form>
-                )}
-              </div>
+                  {(user?.id === c.user_id || user?.is_admin) && (
+                    <div className="comment-buttons">
+                      <button
+                        onClick={async () => {
+                          const newText = prompt("Edit comment:", c.message);
+                          if (!newText) return;
+
+                          const res = await fetch(
+                            `${API_URL}/posts/comments/${c.id}`,
+                            {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${user.token}`,
+                              },
+                              body: JSON.stringify({ message: newText }),
+                            }
+                          );
+                          const data = await res.json();
+                          setPosts(
+                            posts.map((p) =>
+                              p.id === post.id
+                                ? {
+                                    ...p,
+                                    comments: p.comments.map((cm) =>
+                                      cm.id === c.id ? data : cm
+                                    ),
+                                  }
+                                : p
+                            )
+                          );
+                        }}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={async () => {
+                          if (!window.confirm("Delete this comment?")) return;
+
+                          await fetch(`${API_URL}/posts/comments/${c.id}`, {
+                            method: "DELETE",
+                            headers: { Authorization: `Bearer ${user.token}` },
+                          });
+
+                          setPosts(
+                            posts.map((p) =>
+                              p.id === post.id
+                                ? {
+                                    ...p,
+                                    comments: p.comments.filter(
+                                      (cm) => cm.id !== c.id
+                                    ),
+                                  }
+                                : p
+                            )
+                          );
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {user && (
+                <form onSubmit={(e) => handleReply(e, post.id)}>
+                  <input
+                    type="text"
+                    placeholder="Write a reply..."
+                    value={replyMessages[post.id] || ""}
+                    onChange={(e) =>
+                      setReplyMessages({
+                        ...replyMessages,
+                        [post.id]: e.target.value,
+                      })
+                    }
+                  />
+                  <button type="submit">Reply</button>
+                </form>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
       <img
