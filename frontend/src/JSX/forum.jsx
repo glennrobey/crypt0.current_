@@ -16,10 +16,15 @@ export default function Forum() {
   const [newMessage, setNewMessage] = useState("");
   const [replyMessages, setReplyMessages] = useState({});
 
-  // --- Fetch posts from backend ---
+  // --- Fetch posts ---
   const fetchPosts = async () => {
     try {
       const res = await fetch(`${API_URL}/posts`);
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Failed to fetch posts:", text);
+        return;
+      }
       const data = await res.json();
       setPosts(data);
     } catch (err) {
@@ -31,7 +36,7 @@ export default function Forum() {
     fetchPosts();
   }, []);
 
-  // --- Create a new post ---
+  // --- Posts CRUD ---
   const handlePost = async (e) => {
     e.preventDefault();
     if (!newMessage) return;
@@ -45,6 +50,13 @@ export default function Forum() {
         },
         body: JSON.stringify({ message: newMessage }),
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Failed to create post:", text);
+        return;
+      }
+
       const data = await res.json();
       setPosts([data, ...posts]);
       setNewMessage("");
@@ -53,43 +65,27 @@ export default function Forum() {
     }
   };
 
-  // --- Edit a post ---
-  const handleEditPost = async (postId) => {
-    const newText = prompt("Edit your post:");
-    if (!newText) return;
-
-    try {
-      const res = await fetch(`${API_URL}/posts/${postId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ message: newText }),
-      });
-      const data = await res.json();
-      setPosts(posts.map((p) => (p.id === postId ? data : p)));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // --- Delete a post ---
   const handleDeletePost = async (postId) => {
     if (!window.confirm("Delete this post?")) return;
 
     try {
-      await fetch(`${API_URL}/posts/${postId}`, {
+      const res = await fetch(`${API_URL}/posts/${postId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${user.token}` },
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Failed to delete post:", text);
+        return;
+      }
+
       setPosts(posts.filter((p) => p.id !== postId));
     } catch (err) {
       console.error(err);
     }
   };
 
-  // --- Add a comment ---
   const handleReply = async (e, postId) => {
     e.preventDefault();
     const replyText = replyMessages[postId];
@@ -104,7 +100,15 @@ export default function Forum() {
         },
         body: JSON.stringify({ message: replyText }),
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Failed to reply:", text);
+        return;
+      }
+
       const data = await res.json();
+
       setPosts(
         posts.map((post) =>
           post.id === postId
@@ -112,70 +116,22 @@ export default function Forum() {
             : post
         )
       );
+
       setReplyMessages({ ...replyMessages, [postId]: "" });
     } catch (err) {
       console.error(err);
     }
   };
 
-  // --- Edit a comment ---
-  const handleEditComment = async (postId, commentId) => {
-    const newText = prompt("Edit your comment:");
-    if (!newText) return;
-
-    try {
-      const res = await fetch(`${API_URL}/posts/comments/${commentId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ message: newText }),
-      });
-      const data = await res.json();
-      setPosts(
-        posts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                comments: post.comments.map((c) =>
-                  c.id === commentId ? data : c
-                ),
-              }
-            : post
-        )
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // --- Delete a comment ---
-  const handleDeleteComment = async (postId, commentId) => {
-    if (!window.confirm("Delete this comment?")) return;
-
-    try {
-      await fetch(`${API_URL}/posts/comments/${commentId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      setPosts(
-        posts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                comments: post.comments.filter((c) => c.id !== commentId),
-              }
-            : post
-        )
-      );
-    } catch (err) {
-      console.error(err);
-    }
+  // --- Logout ---
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (
     <div className="mission-container">
+      {/* Title */}
       <div className="title">
         <h1>
           crypt0.current_
@@ -183,6 +139,7 @@ export default function Forum() {
         </h1>
       </div>
 
+      {/* Sidebar */}
       <nav className="sidebar">
         <ul>
           <li>
@@ -194,9 +151,25 @@ export default function Forum() {
           <li>
             <a href="/forum"> - Forum</a>
           </li>
+
+          {!user ? (
+            <>
+              <li>
+                <a href="/login"> - Login</a>
+              </li>
+              <li>
+                <a href="/register"> - Register</a>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button onClick={handleLogout}>Logout ({user.username})</button>
+            </li>
+          )}
         </ul>
       </nav>
 
+      {/* Forum Main */}
       <div className="forum-main">
         {user && (
           <div className="new-post">
@@ -216,36 +189,20 @@ export default function Forum() {
           {posts.map((post) => (
             <div className="post" key={post.id}>
               <p>
-                <b>{post.user_name || post.user}:</b> {post.message}
+                <b>{post.user_name}:</b> {post.message}
               </p>
 
+              {/* Delete button only for admins or post owner */}
               {user && (user.is_admin || user.id === post.user_id) && (
-                <div>
-                  <button onClick={() => handleEditPost(post.id)}>Edit</button>
-                  <button onClick={() => handleDeletePost(post.id)}>
-                    Delete
-                  </button>
-                </div>
+                <button onClick={() => handleDeletePost(post.id)}>
+                  Delete
+                </button>
               )}
 
               <div className="comments">
                 {post.comments.map((c) => (
                   <p key={c.id}>
-                    <i>{c.user_name || c.user}:</i> {c.message}
-                    {user && (user.is_admin || user.id === c.user_id) && (
-                      <>
-                        <button
-                          onClick={() => handleEditComment(post.id, c.id)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteComment(post.id, c.id)}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
+                    <i>{c.user_name}:</i> {c.message}
                   </p>
                 ))}
 
