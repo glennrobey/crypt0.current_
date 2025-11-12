@@ -1,63 +1,177 @@
 import "../CSS/forumStyles.css";
 import BitcoinImage from "/bitcoin.png";
-import { useState } from "react";
-import TitleSidebarBackground from "/title-sidebar-background.jpg";
+import { useState, useEffect } from "react";
+
+const API_URL = "http://localhost:5000/api";
 
 export default function Forum() {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "TestUser",
-      message: "This is a sample forum post!",
-      comments: [
-        { id: 1, user: "TestGuy1", message: "Crypto is cool!" },
-        { id: 2, user: "TestGuy2", message: "I disagree!" },
-      ],
-    },
-    {
-      id: 2,
-      user: "TestGuy3",
-      message: "I love money!",
-      comments: [],
-    },
-  ]);
+  // --- Auth ---
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
 
+  // --- Posts ---
+  const [posts, setPosts] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [replyMessages, setReplyMessages] = useState({});
 
-  const handlePost = (e) => {
-    e.preventDefault();
-    if (!newMessage) return;
-    const newPost = {
-      id: posts.length + 1,
-      user: "CurrentUser",
-      message: newMessage,
-      comments: [],
-    };
-    setPosts([newPost, ...posts]);
-    setNewMessage("");
+  // --- Fetch posts from backend ---
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch(`${API_URL}/posts`);
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleReply = (e, postId) => {
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // --- Create a new post ---
+  const handlePost = async (e) => {
+    e.preventDefault();
+    if (!newMessage) return;
+
+    try {
+      const res = await fetch(`${API_URL}/posts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ message: newMessage }),
+      });
+      const data = await res.json();
+      setPosts([data, ...posts]);
+      setNewMessage("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // --- Edit a post ---
+  const handleEditPost = async (postId) => {
+    const newText = prompt("Edit your post:");
+    if (!newText) return;
+
+    try {
+      const res = await fetch(`${API_URL}/posts/${postId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ message: newText }),
+      });
+      const data = await res.json();
+      setPosts(posts.map((p) => (p.id === postId ? data : p)));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // --- Delete a post ---
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm("Delete this post?")) return;
+
+    try {
+      await fetch(`${API_URL}/posts/${postId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setPosts(posts.filter((p) => p.id !== postId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // --- Add a comment ---
+  const handleReply = async (e, postId) => {
     e.preventDefault();
     const replyText = replyMessages[postId];
     if (!replyText) return;
 
-    setPosts(
-      posts.map((post) => {
-        if (post.id === postId) {
-          const newComment = {
-            id: post.comments.length + 1,
-            user: "CurrentUser",
-            message: replyText,
-          };
-          return { ...post, comments: [...post.comments, newComment] };
-        }
-        return post;
-      })
-    );
+    try {
+      const res = await fetch(`${API_URL}/posts/${postId}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ message: replyText }),
+      });
+      const data = await res.json();
+      setPosts(
+        posts.map((post) =>
+          post.id === postId
+            ? { ...post, comments: [...post.comments, data] }
+            : post
+        )
+      );
+      setReplyMessages({ ...replyMessages, [postId]: "" });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    setReplyMessages({ ...replyMessages, [postId]: "" });
+  // --- Edit a comment ---
+  const handleEditComment = async (postId, commentId) => {
+    const newText = prompt("Edit your comment:");
+    if (!newText) return;
+
+    try {
+      const res = await fetch(`${API_URL}/posts/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ message: newText }),
+      });
+      const data = await res.json();
+      setPosts(
+        posts.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                comments: post.comments.map((c) =>
+                  c.id === commentId ? data : c
+                ),
+              }
+            : post
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // --- Delete a comment ---
+  const handleDeleteComment = async (postId, commentId) => {
+    if (!window.confirm("Delete this comment?")) return;
+
+    try {
+      await fetch(`${API_URL}/posts/comments/${commentId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setPosts(
+        posts.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                comments: post.comments.filter((c) => c.id !== commentId),
+              }
+            : post
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -80,59 +194,77 @@ export default function Forum() {
           <li>
             <a href="/forum"> - Forum</a>
           </li>
-          <li>
-            <a href="/login"> - Login</a>
-          </li>
-          <li>
-            <a href="/register"> - Register</a>
-          </li>
         </ul>
       </nav>
 
       <div className="forum-main">
-        <div className="new-post">
-          <h2>Create a New Post</h2>
-          <form onSubmit={handlePost}>
-            <label>Message:</label>
-            <textarea
-              placeholder="Write your post here..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              required
-            ></textarea>
-            <button type="submit">Post</button>
-          </form>
-        </div>
+        {user && (
+          <div className="new-post">
+            <h2>Create a New Post</h2>
+            <form onSubmit={handlePost}>
+              <textarea
+                placeholder="Write your post here..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              ></textarea>
+              <button type="submit">Post</button>
+            </form>
+          </div>
+        )}
 
         <div className="posts">
           {posts.map((post) => (
             <div className="post" key={post.id}>
               <p>
-                <b>{post.user}:</b> {post.message}
+                <b>{post.user_name || post.user}:</b> {post.message}
               </p>
+
+              {user && (user.is_admin || user.id === post.user_id) && (
+                <div>
+                  <button onClick={() => handleEditPost(post.id)}>Edit</button>
+                  <button onClick={() => handleDeletePost(post.id)}>
+                    Delete
+                  </button>
+                </div>
+              )}
 
               <div className="comments">
                 {post.comments.map((c) => (
                   <p key={c.id}>
-                    <i>{c.user}:</i> {c.message}
+                    <i>{c.user_name || c.user}:</i> {c.message}
+                    {user && (user.is_admin || user.id === c.user_id) && (
+                      <>
+                        <button
+                          onClick={() => handleEditComment(post.id, c.id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteComment(post.id, c.id)}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </p>
                 ))}
 
-                {/* Reply form */}
-                <form onSubmit={(e) => handleReply(e, post.id)}>
-                  <input
-                    type="text"
-                    placeholder="Write a reply..."
-                    value={replyMessages[post.id] || ""}
-                    onChange={(e) =>
-                      setReplyMessages({
-                        ...replyMessages,
-                        [post.id]: e.target.value,
-                      })
-                    }
-                  />
-                  <button type="submit">Reply</button>
-                </form>
+                {user && (
+                  <form onSubmit={(e) => handleReply(e, post.id)}>
+                    <input
+                      type="text"
+                      placeholder="Write a reply..."
+                      value={replyMessages[post.id] || ""}
+                      onChange={(e) =>
+                        setReplyMessages({
+                          ...replyMessages,
+                          [post.id]: e.target.value,
+                        })
+                      }
+                    />
+                    <button type="submit">Reply</button>
+                  </form>
+                )}
               </div>
             </div>
           ))}
