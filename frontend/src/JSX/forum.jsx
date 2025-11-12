@@ -13,7 +13,6 @@ export default function Forum() {
   const [newMessage, setNewMessage] = useState("");
   const [replyMessages, setReplyMessages] = useState({});
 
-  // --- Fetch posts + auto-update ---
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await fetch(`${API_URL}/posts`);
@@ -26,7 +25,6 @@ export default function Forum() {
     return () => clearInterval(interval);
   }, []);
 
-  // --- Post CRUD ---
   const handlePost = async (e) => {
     e.preventDefault();
     if (!newMessage) return;
@@ -39,7 +37,9 @@ export default function Forum() {
       body: JSON.stringify({ message: newMessage }),
     });
     const data = await res.json();
-    setPosts([data, ...posts]);
+    console.log(data);
+    console.log(posts);
+    setPosts((prevPosts) => [data, ...prevPosts]);
     setNewMessage("");
   };
 

@@ -45,7 +45,9 @@ router.post("/", authenticateToken, async (req, res) => {
       "INSERT INTO posts (user_id, message) VALUES ($1, $2) RETURNING *",
       [req.user.id, message]
     );
-    res.status(201).json(newPost.rows[0]);
+    const payload = newPost.rows[0];
+    payload.comments = [];
+    res.status(201).json(payload);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
