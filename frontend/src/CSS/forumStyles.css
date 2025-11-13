@@ -67,6 +67,7 @@ body {
   min-height: 80vh;
   border: 1px solid whitesmoke;
   margin-left: 230px;
+  z-index: 0;
 }
 
 .new-post {
@@ -122,7 +123,7 @@ body {
 }
 
 .post {
-  background-color: black;
+  background-color: #0c850d;
   color: rgba(12, 133, 13, 0.9);
   padding: 1rem;
   border-radius: 6px;
@@ -135,4 +136,15 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 8px;
   padding: 0.5rem 1rem;
+}
+
+.bottom-left-image {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 30%;
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
 }

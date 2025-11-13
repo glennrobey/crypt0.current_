@@ -53,6 +53,7 @@ p {
   width: 30%;
   height: auto;
   z-index: 10;
+  user-select: none;
 }
 
 .sidebar {
