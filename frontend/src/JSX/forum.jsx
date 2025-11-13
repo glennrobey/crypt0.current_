@@ -151,7 +151,9 @@ export default function Forum() {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             ></textarea>
-            <button type="submit">Post</button>
+            <button className="post-button" type="submit">
+              Post
+            </button>
           </form>
         </div>
       )}
