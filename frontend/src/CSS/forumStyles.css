@@ -128,3 +128,11 @@ body {
   border-radius: 6px;
   border: 1px solid whitesmoke;
 }
+
+.logout-button {
+  color: whitesmoke;
+  background-color: #0c850d;
+  border: 1px solid whitesmoke;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}

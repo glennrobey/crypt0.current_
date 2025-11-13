@@ -108,10 +108,12 @@ export default function Login() {
         </form>
       ) : (
         <div>
-          <p>
+          <p className="login-message">
             Logged in as {user.username} {user.is_admin ? "(Admin)" : ""}
           </p>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
 

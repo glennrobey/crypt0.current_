@@ -129,12 +129,13 @@ export default function Forum() {
           {user && (
             <li>
               <button
+                className="logout-button"
                 onClick={() => {
                   setUser(null);
                   localStorage.removeItem("user");
                 }}
               >
-                Logout ({user.username})
+                - Logout ({user.username})
               </button>
             </li>
           )}
