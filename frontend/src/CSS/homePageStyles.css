@@ -119,3 +119,33 @@ h1 {
 #sidebar-menu a {
   background: none;
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .app {
+    position: static;
+    margin-left: 0;
+    width: 98%;
+    top: auto;
+    left: auto;
+    margin-top: 30rem;
+    padding: 1rem;
+  }
+
+  .bottom-left-image {
+    width: 40%;
+    max-width: 120px;
+  }
+
+  .title {
+    width: 100%;
+    text-align: center;
+    position: static;
+    margin-bottom: 1rem;
+  }
+}
