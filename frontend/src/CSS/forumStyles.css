@@ -20,12 +20,8 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-li {
-  list-style: none;
-  transition: color 0.3s ease;
-  color: whitesmoke;
-}
 
+li,
 ul {
   list-style: none;
   transition: color 0.3s ease;
@@ -57,7 +53,7 @@ body {
 }
 
 .forum-main {
-  margin-left: 230px;
+  margin-left: 300px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -66,7 +62,6 @@ body {
   border-radius: 8px;
   min-height: 80vh;
   border: 1px solid whitesmoke;
-  margin-left: 300px;
   z-index: 1;
 }
 
@@ -75,14 +70,24 @@ body {
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid whitesmoke;
-  color: rgba(12, 133, 13, 0.75);
 }
 
 .new-post form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-left: 230px;
+}
+
+.new-post-form {
+  width: 98%;
+  margin: 2rem auto 0 auto;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: 1px solid whitesmoke;
+  background-color: black;
+  color: white;
+  opacity: 75%;
+  text-align: left;
 }
 
 .new-post input,
@@ -92,21 +97,20 @@ body {
   border: 1px solid whitesmoke;
   background-color: black;
   color: white;
-  margin-left: 230px;
   opacity: 75%;
+  margin-left: 0;
 }
 
 .new-post button {
   width: fit-content;
-  margin-top: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: 1px solid whitesmoke;
   background-color: black;
   color: white;
   cursor: pointer;
-  margin-left: 230px;
   opacity: 75%;
+  margin-left: 0;
 }
 
 .new-post button:hover {
@@ -137,7 +141,6 @@ body {
   background-color: #0c850d;
   border: 1px solid whitesmoke;
   border-radius: 8px;
-  padding: 0.5rem 1rem;
 }
 
 .bottom-left-image {
@@ -156,18 +159,8 @@ body {
   opacity: 75%;
 }
 
-.new-post-form {
-  text-align: left;
-}
-
-.reply-button {
-  border: 1px solid whitesmoke;
-}
-
-.edit-button {
-  border: 1px solid whitesmoke;
-}
-
+.reply-button,
+.edit-button,
 .delete-button {
   border: 1px solid whitesmoke;
 }

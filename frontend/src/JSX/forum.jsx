@@ -127,9 +127,8 @@ export default function Forum() {
             </>
           )}
           {user && (
-            <li>
+            <li className="logout-button">
               <button
-                className="logout-button"
                 onClick={() => {
                   setUser(null);
                   localStorage.removeItem("user");
@@ -152,9 +151,12 @@ export default function Forum() {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             ></textarea>
-            <button className="post-button" type="submit">
-              Post
-            </button>
+
+            <div className="post-button-row">
+              <button className="post-button" type="submit">
+                Post
+              </button>
+            </div>
           </form>
         </div>
       )}
