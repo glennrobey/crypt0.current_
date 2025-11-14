@@ -15,7 +15,7 @@
 }
 
 .sidebar {
-  background-color: #0c850d;
+  background-image: url("/title-sidebar-background.jpg");
   border: 1px solid whitesmoke;
   text-align: left;
   border-radius: 8px;
@@ -92,4 +92,30 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+#sidebar-menu {
+  background: none;
+}
+
+#sidebar-menu li,
+#sidebar-menu a {
+  background: none;
+}
+
+.sidebar ul {
+  background-color: none;
+}
+
+h1 {
+  background: none;
+}
+
+#sidebar-menu {
+  background: none;
+}
+
+#sidebar-menu li,
+#sidebar-menu a {
+  background: none;
 }

@@ -110,3 +110,29 @@ body {
   border-radius: 8px;
   padding: 0.5rem 1rem;
 }
+
+#sidebar-menu {
+  background: none;
+}
+
+#sidebar-menu li,
+#sidebar-menu a {
+  background: none;
+}
+
+.sidebar ul {
+  background-color: none;
+}
+
+h1 {
+  background: none;
+}
+
+#sidebar-menu {
+  background: none;
+}
+
+#sidebar-menu li,
+#sidebar-menu a {
+  background: none;
+}

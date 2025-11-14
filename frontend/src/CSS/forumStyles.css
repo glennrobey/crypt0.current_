@@ -4,6 +4,10 @@
   font-size: 12px;
 }
 
+.title {
+  background-color: none;
+}
+
 .sidebar {
   border: 1px solid whitesmoke;
   text-align: left;
@@ -19,6 +23,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.sidebar ul {
+  background-color: none;
 }
 
 li,
@@ -41,6 +49,20 @@ ul {
   border-radius: 6px;
   margin-bottom: 10px;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#sidebar-menu {
+  background: none;
+}
+
+#sidebar-menu li,
+#sidebar-menu a {
+  background: none;
+}
+
+#sidebar-menu .logout-button {
+  border: none;
+  background: none;
 }
 
 .sidebar a:hover {
@@ -139,7 +161,6 @@ body {
 .logout-button {
   color: whitesmoke;
   background-color: #0c850d;
-  border: 1px solid whitesmoke;
   border-radius: 8px;
 }
 
@@ -163,4 +184,8 @@ body {
 .edit-button,
 .delete-button {
   border: 1px solid whitesmoke;
+}
+
+h1 {
+  background: none;
 }

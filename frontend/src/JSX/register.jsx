@@ -50,7 +50,7 @@ export default function Register() {
       </div>
 
       <nav className="sidebar">
-        <ul>
+        <ul id="sidebar-menu">
           <li>
             <a href="/"> - Home</a>
           </li>

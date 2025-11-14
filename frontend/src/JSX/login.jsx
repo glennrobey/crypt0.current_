@@ -63,7 +63,7 @@ export default function Login() {
       </div>
 
       <nav className="sidebar">
-        <ul>
+        <ul id="sidebar-menu">
           <li>
             <a href="/"> - Home</a>
           </li>

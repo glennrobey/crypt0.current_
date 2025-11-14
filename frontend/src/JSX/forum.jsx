@@ -106,7 +106,7 @@ export default function Forum() {
       </div>
 
       <nav className="sidebar">
-        <ul>
+        <ul id="sidebar-menu">
           <li>
             <a href="/"> - Home</a>
           </li>
