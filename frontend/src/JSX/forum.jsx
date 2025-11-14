@@ -129,6 +129,7 @@ export default function Forum() {
           {user && (
             <li className="logout-button">
               <button
+                id="logout-button"
                 onClick={() => {
                   setUser(null);
                   localStorage.removeItem("user");
