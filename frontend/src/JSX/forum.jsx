@@ -143,10 +143,11 @@ export default function Forum() {
       </nav>
 
       {user && (
-        <div className="new-post">
+        <div className="new-post button">
           <h2>Create a New Post</h2>
           <form onSubmit={handlePost}>
             <textarea
+              className="new-post-form"
               placeholder="Write your post here..."
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
@@ -166,8 +167,16 @@ export default function Forum() {
             </p>
             {(user?.id === post.user_id || user?.is_admin) && (
               <div>
-                <button onClick={() => handleEditPost(post.id)}>Edit</button>
-                <button onClick={() => handleDeletePost(post.id)}>
+                <button
+                  className="edit-button"
+                  onClick={() => handleEditPost(post.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="edit-button"
+                  onClick={() => handleDeletePost(post.id)}
+                >
                   Delete
                 </button>
               </div>
@@ -183,6 +192,7 @@ export default function Forum() {
                   {(user?.id === c.user_id || user?.is_admin) && (
                     <div className="comment-buttons">
                       <button
+                        className="edit-button"
                         onClick={async () => {
                           const newText = prompt("Edit comment:", c.message);
                           if (!newText) return;
@@ -217,6 +227,7 @@ export default function Forum() {
                       </button>
 
                       <button
+                        className="delete-button"
                         onClick={async () => {
                           if (!window.confirm("Delete this comment?")) return;
 
@@ -259,7 +270,9 @@ export default function Forum() {
                       })
                     }
                   />
-                  <button type="submit">Reply</button>
+                  <button className="reply-button" type="submit">
+                    Reply
+                  </button>
                 </form>
               )}
             </div>
