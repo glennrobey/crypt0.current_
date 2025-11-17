@@ -147,3 +147,27 @@ h1 {
 #sidebar-menu a {
   background: none;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 180px;
+    font-size: 22px;
+  }
+
+  .body {
+    margin-left: 150px;
+    width: 60%;
+    font-size: 17px;
+  }
+
+  .title {
+    width: 80%;
+    font-size: 26px;
+  }
+
+  .bottom-left-image {
+    width: 40%;
+    max-width: 120px;
+  }
+}

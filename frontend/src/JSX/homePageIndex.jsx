@@ -1,8 +1,6 @@
 import "../CSS/homePageStyles.css";
 import React, { useEffect, useState } from "react";
 import BitcoinImage from "/bitcoin.png";
-import BackgroundImage from "/background.jpg";
-import TitleSidebarBackground from "/title-sidebar-background.jpg";
 
 export default function Home() {
   const [currencies, setCurrencies] = useState([]);
@@ -48,6 +46,26 @@ export default function Home() {
         <h1>crypt0.current_</h1>
       </div>
 
+      <nav className="sidebar">
+        <ul id="sidebar-menu">
+          <li>
+            <a href="/"> - Home</a>
+          </li>
+          <li>
+            <a href="/mission"> - Mission</a>
+          </li>
+          <li>
+            <a href="/forum"> - Forum</a>
+          </li>
+          <li>
+            <a href="/login"> - Login</a>
+          </li>
+          <li>
+            <a href="/register"> - Register</a>
+          </li>
+        </ul>
+      </nav>
+
       <div className="app">
         <h2>Currency Converter</h2>
         <input
@@ -69,7 +87,9 @@ export default function Home() {
             </option>
           ))}
         </select>
+
         <span>to</span>
+
         <select
           value={toCurrency}
           onChange={(e) => setToCurrency(e.target.value)}
@@ -83,30 +103,11 @@ export default function Home() {
             </option>
           ))}
         </select>
+
         <button onClick={handleConvert}>Convert</button>
 
         {result && <p>{result}</p>}
       </div>
-
-      <nav className="sidebar">
-        <ul id="sidebar-menu">
-          <li>
-            <a href="/"> - Home</a>
-          </li>
-          <li>
-            <a href="/mission"> - Mission</a>
-          </li>
-          <li>
-            <a href="/forum"> - Forum</a>
-          </li>
-          <li>
-            <a href="/login"> - Login</a>
-          </li>
-          <li>
-            <a href="/register"> - Register</a>
-          </li>
-        </ul>
-      </nav>
 
       <img
         src={BitcoinImage}

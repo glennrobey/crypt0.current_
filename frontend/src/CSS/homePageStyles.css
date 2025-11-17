@@ -79,11 +79,13 @@ ul {
   color: white;
   text-align: left;
   border-radius: 8px;
-  width: fit-content;
-  position: fixed;
   border: 1px solid whitesmoke;
-  left: 60rem;
-  top: 30rem;
+  width: fit-content;
+
+  position: relative;
+  margin-left: 19px;
+  margin-top: 8px;
+  padding: 1rem;
 }
 
 body {
@@ -121,31 +123,33 @@ h1 {
 }
 
 @media (max-width: 767px) {
-  .sidebar {
-    position: static;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .app {
-    position: static;
-    margin-left: 0;
-    width: 98%;
-    top: auto;
-    left: auto;
-    margin-top: 30rem;
-    padding: 1rem;
-  }
-
-  .bottom-left-image {
-    width: 40%;
-    max-width: 120px;
-  }
-
   .title {
     width: 100%;
     text-align: center;
     position: static;
     margin-bottom: 1rem;
+    max-width: 50rem;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+  }
+
+  .app {
+    width: 100%;
+    margin-top: -10400px;
+    padding: 1rem;
+    left: auto;
+    top: auto;
+  }
+
+  .bottom-left-image {
+    width: 40%;
+    max-width: 140px;
+    bottom: 0.5rem;
+    left: 0.5rem;
   }
 }

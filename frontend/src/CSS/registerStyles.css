@@ -119,3 +119,32 @@ h1 {
 #sidebar-menu a {
   background: none;
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    width: 100%;
+    margin-top: 20rem;
+  }
+
+  .bottom-left-image {
+    width: 40%;
+    max-width: 120px;
+  }
+
+  .title {
+    width: 100%;
+    text-align: center;
+    position: static;
+    margin-bottom: 900rem;
+    aspect-ratio: 99/2;
+  }
+
+  .register-form {
+    margin-bottom: -00px;
+  }
+
+  .register-button {
+    margin-bottom: -320px;
+  }
+}
