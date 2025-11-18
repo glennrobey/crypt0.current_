@@ -2,8 +2,6 @@ import "../CSS/registerStyles.css";
 import React, { useState } from "react";
 import BitcoinImage from "/bitcoin.png";
 
-const API_URL = "http://localhost:5000/api";
-
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +12,14 @@ export default function Register() {
     if (!username || !password) return;
 
     try {
-      const res = await fetch(`${API_URL}/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       const data = await res.json();
 

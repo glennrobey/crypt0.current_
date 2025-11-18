@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import BitcoinImage from "/bitcoin.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
-console.log(API_URL);
 
 export default function Login() {
   const [username, setUsername] = useState("");
