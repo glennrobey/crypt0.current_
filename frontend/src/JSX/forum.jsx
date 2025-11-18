@@ -13,21 +13,22 @@ export default function Forum() {
   const [newMessage, setNewMessage] = useState("");
   const [replyMessages, setReplyMessages] = useState({});
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch(`${API_URL}/posts`);
-      const data = await res.json();
-      setPosts(data);
-    };
+  const refreshPosts = async () => {
+    const res = await fetch(`${API_URL}/posts`);
+    const data = await res.json();
+    setPosts(data);
+  };
 
-    fetchPosts();
-    const interval = setInterval(fetchPosts, 5000);
+  useEffect(() => {
+    refreshPosts();
+    const interval = setInterval(refreshPosts, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const handlePost = async (e) => {
     e.preventDefault();
     if (!newMessage) return;
+
     const res = await fetch(`${API_URL}/posts`, {
       method: "POST",
       headers: {
@@ -36,10 +37,8 @@ export default function Forum() {
       },
       body: JSON.stringify({ message: newMessage }),
     });
-    const data = await res.json();
-    console.log(data);
-    console.log(posts);
-    setPosts((prevPosts) => [data, ...prevPosts]);
+
+    await refreshPosts();
     setNewMessage("");
   };
 
@@ -48,7 +47,7 @@ export default function Forum() {
     const replyText = replyMessages[postId];
     if (!replyText) return;
 
-    const res = await fetch(`${API_URL}/posts/${postId}/comments`, {
+    await fetch(`${API_URL}/posts/${postId}/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,15 +55,8 @@ export default function Forum() {
       },
       body: JSON.stringify({ message: replyText }),
     });
-    const data = await res.json();
 
-    setPosts(
-      posts.map((post) =>
-        post.id === postId
-          ? { ...post, comments: [...post.comments, data] }
-          : post
-      )
-    );
+    await refreshPosts();
     setReplyMessages({ ...replyMessages, [postId]: "" });
   };
 
@@ -76,14 +68,14 @@ export default function Forum() {
       headers: { Authorization: `Bearer ${user.token}` },
     });
 
-    setPosts(posts.filter((post) => post.id !== postId));
+    await refreshPosts();
   };
 
   const handleEditPost = async (postId) => {
     const newText = prompt("Edit your post:");
     if (!newText) return;
 
-    const res = await fetch(`${API_URL}/posts/${postId}`, {
+    await fetch(`${API_URL}/posts/${postId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -91,9 +83,8 @@ export default function Forum() {
       },
       body: JSON.stringify({ message: newText }),
     });
-    const data = await res.json();
 
-    setPosts(posts.map((p) => (p.id === postId ? data : p)));
+    await refreshPosts();
   };
 
   return (
@@ -116,7 +107,8 @@ export default function Forum() {
           <li>
             <a href="/forum"> - Forum</a>
           </li>
-          {!user && (
+
+          {!user ? (
             <>
               <li>
                 <a href="/login"> - Login</a>
@@ -125,8 +117,7 @@ export default function Forum() {
                 <a href="/register"> - Register</a>
               </li>
             </>
-          )}
-          {user && (
+          ) : (
             <li className="logout-button">
               <button
                 id="logout-button"
@@ -168,6 +159,7 @@ export default function Forum() {
             <p>
               <b>{post.user_name}:</b> {post.message}
             </p>
+
             {(user?.id === post.user_id || user?.is_admin) && (
               <div>
                 <button
@@ -176,6 +168,7 @@ export default function Forum() {
                 >
                   Edit
                 </button>
+
                 <button
                   className="edit-button"
                   onClick={() => handleDeletePost(post.id)}
@@ -200,30 +193,16 @@ export default function Forum() {
                           const newText = prompt("Edit comment:", c.message);
                           if (!newText) return;
 
-                          const res = await fetch(
-                            `${API_URL}/posts/comments/${c.id}`,
-                            {
-                              method: "PUT",
-                              headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${user.token}`,
-                              },
-                              body: JSON.stringify({ message: newText }),
-                            }
-                          );
-                          const data = await res.json();
-                          setPosts(
-                            posts.map((p) =>
-                              p.id === post.id
-                                ? {
-                                    ...p,
-                                    comments: p.comments.map((cm) =>
-                                      cm.id === c.id ? data : cm
-                                    ),
-                                  }
-                                : p
-                            )
-                          );
+                          await fetch(`${API_URL}/posts/comments/${c.id}`, {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${user.token}`,
+                            },
+                            body: JSON.stringify({ message: newText }),
+                          });
+
+                          await refreshPosts();
                         }}
                       >
                         Edit
@@ -239,18 +218,7 @@ export default function Forum() {
                             headers: { Authorization: `Bearer ${user.token}` },
                           });
 
-                          setPosts(
-                            posts.map((p) =>
-                              p.id === post.id
-                                ? {
-                                    ...p,
-                                    comments: p.comments.filter(
-                                      (cm) => cm.id !== c.id
-                                    ),
-                                  }
-                                : p
-                            )
-                          );
+                          await refreshPosts();
                         }}
                       >
                         Delete
