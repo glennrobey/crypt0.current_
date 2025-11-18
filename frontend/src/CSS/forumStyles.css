@@ -237,12 +237,40 @@ h1 {
     background: none;
   }
 
-  .app {
+  .posts {
     width: 100%;
-    margin-top: -1400px;
+    max-width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+
+  .post {
+    width: 100%;
+    max-width: 100%;
     padding: 1rem;
-    left: auto;
-    top: auto;
+    box-sizing: border-box;
+  }
+
+  .new-post {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 1.5rem;
+  }
+
+  .new-post-form {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-button-row {
+    text-align: right;
+  }
+
+  .post-button {
+    width: auto;
   }
 
   .bottom-left-image {

@@ -162,10 +162,12 @@ h1 {
 
   .app {
     width: 100%;
-    margin-top: -1400px;
+    margin: 0;
+    margin-top: 1rem;
     padding: 1rem;
-    left: auto;
-    top: auto;
+
+    position: static;
+    box-sizing: border-box;
   }
 
   .bottom-left-image {
