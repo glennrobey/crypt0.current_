@@ -2,6 +2,7 @@ import express from "express";
 import pool from "../db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { createUser } from "#db/queries/users";
 
 const router = express.Router();
 
@@ -21,19 +22,14 @@ router.post("/register", async (req, res) => {
     if (userCheck.rows.length > 0)
       return res.status(400).json({ message: "Username already exists" });
 
-    const salt = await bcrypt.genSalt(10);
-    const password_hash = await bcrypt.hash(password, salt);
+    console.log("createUser");
+    const newUser = await createUser(username, password);
 
-    const newUser = await pool.query(
-      "INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username, is_admin",
-      [username, password_hash]
-    );
-
-    const token = jwt.sign({ id: newUser.rows[0].id }, JWT_SECRET, {
+    const token = jwt.sign({ id: newUser.id }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
-    res.status(201).json({ ...newUser.rows[0], token });
+    res.status(201).json({ ...newUser, token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");

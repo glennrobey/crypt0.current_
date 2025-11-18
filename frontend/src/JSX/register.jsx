@@ -95,7 +95,7 @@ export default function Register() {
         </form>
       ) : (
         <div>
-          <p>
+          <p className="logged-in-message ">
             Logged in as {user.username} {user.is_admin ? "(Admin)" : ""}
           </p>
           <button onClick={handleLogout}>Logout</button>

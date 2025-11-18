@@ -120,31 +120,43 @@ h1 {
   background: none;
 }
 
+.logged-in-message {
+  color: whitesmoke;
+  background-color: #0c850d;
+  border: 1px solid whitesmoke;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  opacity: 75%;
+}
+
 @media (max-width: 767px) {
-  .sidebar {
-    position: fixed;
-    width: 100%;
-    margin-top: 20rem;
-  }
-
-  .bottom-left-image {
-    width: 40%;
-    max-width: 120px;
-  }
-
   .title {
     width: 100%;
     text-align: center;
     position: static;
-    margin-bottom: 900rem;
-    aspect-ratio: 99/2;
+    margin-bottom: 1rem;
+    max-width: 50rem;
   }
 
-  .register-form {
-    margin-bottom: -00px;
+  .sidebar {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    max-width: 300px;
   }
 
-  .register-button {
-    margin-bottom: -320px;
+  .app {
+    width: 100%;
+    margin-top: -10250px;
+    padding: 1rem;
+    left: auto;
+    top: auto;
+  }
+
+  .bottom-left-image {
+    width: 40%;
+    max-width: 140px;
+    bottom: 0.5rem;
+    left: 0.5rem;
   }
 }
