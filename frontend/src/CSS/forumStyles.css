@@ -92,6 +92,7 @@ body {
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid whitesmoke;
+  width: 100%;
 }
 
 .new-post form {
@@ -280,6 +281,6 @@ h1 {
     bottom: 0.5rem;
     left: 0.5rem;
     position: static;
-    margin: 100px !important;
+    bottom: 100px !important;
   }
 }
