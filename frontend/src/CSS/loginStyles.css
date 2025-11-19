@@ -87,6 +87,7 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 8px;
   padding: 0.5rem 1rem;
+  margin-bottom: 60px;
 }
 
 .login-form {
@@ -193,6 +194,6 @@ h1 {
   }
 
   .login-button {
-    bottom: 270px !important;
+    bottom: 200px;
   }
 }

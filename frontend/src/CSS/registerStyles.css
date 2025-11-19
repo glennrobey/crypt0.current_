@@ -100,7 +100,7 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  margin-bottom: 240px;
+  margin-bottom: 60px;
 }
 
 .register-form {
@@ -231,6 +231,6 @@ h1 {
   }
 
   .register-button {
-    bottom: 20px !important;
+    bottom: 200px;
   }
 }
