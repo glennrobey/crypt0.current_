@@ -127,7 +127,7 @@ h1 {
     width: 100%;
     text-align: center;
     position: static;
-    margin-bottom: 1rem;
+    margin-bottom: 50rem !important;
     max-width: 50rem;
   }
 
@@ -136,6 +136,7 @@ h1 {
     width: 100%;
     padding: 0.75rem;
     border-radius: 8px;
+    margin-top: -48rem !important;
   }
 
   #sidebar-menu {
