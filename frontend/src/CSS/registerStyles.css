@@ -208,14 +208,15 @@ h1 {
   }
 
   .bottom-left-image {
+    position: static;
     width: 40%;
     max-width: 140px;
     bottom: 0.5rem;
     left: 0.5rem;
-    /* margin-bottom: -240px !important; */
+    margin-bottom: -240px !important;
   }
 
   .register-button {
-    bottom: 390px;
+    bottom: 270px !important;
   }
 }
