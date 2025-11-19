@@ -186,11 +186,12 @@ h1 {
   .bottom-left-image {
     width: 40%;
     max-width: 140px;
-    bottom: 0.5rem;
+    /* bottom: 420px !important; */
     left: 0.5rem;
+    opacity: 0.75 !important;
   }
 
   .login-button {
-    bottom: 245px;
+    bottom: 390px;
   }
 }

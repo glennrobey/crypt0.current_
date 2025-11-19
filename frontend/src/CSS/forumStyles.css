@@ -279,6 +279,7 @@ h1 {
     max-width: 140px;
     bottom: 0.5rem;
     left: 0.5rem;
-    /* z-index: -1 !important; */
+    position: static;
+    margin: 100px !important;
   }
 }
