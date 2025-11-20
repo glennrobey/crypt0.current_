@@ -163,6 +163,8 @@ body {
   color: whitesmoke;
   background-color: #0c850d;
   border-radius: 8px;
+  margin-left: -850px;
+  margin-top: 60px;
 }
 
 .bottom-left-image {
